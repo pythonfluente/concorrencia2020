@@ -1,2 +1,4 @@
-# chipy2019
-Examples for a talk at ChiPy — June 26, 2019.
+# concorrência2020
+
+Esse repositório é um fork dos exemplos que usei em uma palestra no meetup do ChiPy em 26/jun/2019.
+
