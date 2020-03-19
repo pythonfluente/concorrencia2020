@@ -4,9 +4,9 @@ asyncio + aiottp version
 
 Sample run::
 
-    $ python3 flags_asyncio.py 
-    CN EG BR IN ID RU NG VN JP DE TR PK FR ET MX PH US IR CD BD 
-    20 flags downloaded in 0.35s
+    $ python3 flags_asyncio.py
+    CN EG BR IN ID RU NG VN JP DE TR PK FR ET MX PH US IR CD BD
+    20 downloads in 0.35s
 
 """
 # BEGIN FLAGS_ASYNCIO

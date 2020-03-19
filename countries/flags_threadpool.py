@@ -4,8 +4,8 @@ ThreadPoolExecutor version
 
 Sample run::
 
-    $ python3 flags_threadpool.py 
-    DE FR BD CN EG RU IN TR VN ID JP BR NG MX PK ET PH CD US IR 
+    $ python3 flags_threadpool.py
+    DE FR BD CN EG RU IN TR VN ID JP BR NG MX PK ET PH CD US IR
     20 downloads in 0.35s
 
 """
