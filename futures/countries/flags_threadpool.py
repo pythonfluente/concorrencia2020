@@ -15,7 +15,7 @@ import time
 import sys
 from concurrent import futures  # <1>
 
-import requests
+import urllib.request
 
 POP20_CC = ('CN IN US ID BR PK NG BD RU JP '
             'MX PH VN ET EG DE IR TR CD FR').split()
@@ -35,8 +35,8 @@ def save_flag(img, filename):
 def get_flag(cc):
     cc = cc.lower()
     url = f'{BASE_URL}/{cc}/{cc}.gif'
-    resp = requests.get(url)
-    return resp.content
+    resp = urllib.request.urlopen(url)
+    return resp.read()
 
 
 def download_one(cc):  # <3>

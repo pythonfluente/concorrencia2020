@@ -14,7 +14,7 @@ import os
 import time
 import sys
 
-import requests  # <1>
+import urllib.request  # <1>
 
 POP20_CC = ('CN IN US ID BR PK NG BD RU JP '
             'MX PH VN ET EG DE IR TR CD FR').split()  # <2>
@@ -33,8 +33,8 @@ def save_flag(img, filename):  # <5>
 def get_flag(cc):  # <6>
     cc = cc.lower()
     url = f'{BASE_URL}/{cc}/{cc}.gif'
-    resp = requests.get(url)
-    return resp.content
+    resp = urllib.request.urlopen(url)
+    return resp.read()
 
 
 def download_many(cc_list):  # <7>
