@@ -31,30 +31,30 @@ def save_flag(img, filename):
         fp.write(img)
 
 
-async def get_flag(session, cc):  # <3>
+async def get_flag(session, cc):          # <3>
     cc = cc.lower()
     url = f'{BASE_URL}/{cc}/{cc}.gif'
-    async with session.get(url) as resp:        # <4>
-        return await resp.read()  # <5>
+    async with session.get(url) as resp:  # <4>
+        return await resp.read()          # <5>
 
 
-async def download_one(session, cc):  # <6>
-    image = await get_flag(session, cc)  # <7>
+async def download_one(session, cc):      # <6>
+    image = await get_flag(session, cc)   # <7>
     print(cc, end=' ', flush=True)
     save_flag(image, cc.lower() + '.gif')
     return cc
 
 
 async def download_many(cc_list):
-    async with aiohttp.ClientSession() as session:  # <8>
-        res = await asyncio.gather(                 # <9>
-            *[asyncio.create_task(download_one(session, cc))
-                for cc in sorted(cc_list)])
+    async with aiohttp.ClientSession() as session:               # <8>
+        tasks = [asyncio.create_task(download_one(session, cc))  # <9>
+                 for cc in sorted(cc_list)]
+        res = await asyncio.gather(*tasks)                       # <10>
 
     return len(res)
 
 
-def main():  # <10>
+def main():  # <11>
     t0 = time.perf_counter()
     count = asyncio.run(download_many(POP20_CC))
     elapsed = time.perf_counter() - t0

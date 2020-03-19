@@ -47,14 +47,14 @@ def download_one(cc):  # <3>
 
 
 def download_many(cc_list):
-    workers = min(MAX_WORKERS, len(cc_list))  # <4>
+    workers = min(MAX_WORKERS, len(cc_list))               # <4>
     with futures.ThreadPoolExecutor(workers) as executor:  # <5>
         res = executor.map(download_one, sorted(cc_list))  # <6>
 
-    return len(list(res))  # <7>
+    return len(list(res))                                  # <7>
 
 
-def main():  # <10>
+def main():  # <8>
     t0 = time.perf_counter()
     count = download_many(POP20_CC)
     elapsed = time.perf_counter() - t0
