@@ -6,13 +6,12 @@ Sample run::
 
     $ python3 flags_threadpool.py 
     DE FR BD CN EG RU IN TR VN ID JP BR NG MX PK ET PH CD US IR 
-    20 flags downloaded in 0.35s
+    20 downloads in 0.35s
 
 """
 # BEGIN FLAGS_THREADPOOL
 import os
 import time
-import sys
 from concurrent import futures  # <1>
 
 import urllib.request
@@ -22,9 +21,10 @@ POP20_CC = ('CN IN US ID BR PK NG BD RU JP '
 
 BASE_URL = 'http://flupy.org/data/flags'
 
-DEST_DIR = 'downloads/'
+DEST_DIR = 'downloaded/'
 
 MAX_WORKERS = 20  # <2>
+
 
 def save_flag(img, filename):
     path = os.path.join(DEST_DIR, filename)
@@ -55,11 +55,10 @@ def download_many(cc_list):
 
 
 def main():  # <10>
-    t0 = time.time()
+    t0 = time.perf_counter()
     count = download_many(POP20_CC)
-    elapsed = time.time() - t0
-    msg = '\n{} flags downloaded in {:.2f}s'
-    print(msg.format(count, elapsed))
+    elapsed = time.perf_counter() - t0
+    print(f'\n{count} downloads in {elapsed:.2f}s')
 
 
 if __name__ == '__main__':

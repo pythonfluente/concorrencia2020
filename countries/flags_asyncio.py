@@ -12,7 +12,6 @@ Sample run::
 # BEGIN FLAGS_ASYNCIO
 import os
 import time
-import sys
 import asyncio  # <1>
 
 import aiohttp  # <2>
@@ -23,7 +22,7 @@ POP20_CC = ('CN IN US ID BR PK NG BD RU JP '
 
 BASE_URL = 'http://flupy.org/data/flags'
 
-DEST_DIR = 'downloads/'
+DEST_DIR = 'downloaded/'
 
 
 def save_flag(img, filename):
@@ -56,11 +55,10 @@ async def download_many(cc_list):
 
 
 def main():  # <10>
-    t0 = time.time()
+    t0 = time.perf_counter()
     count = asyncio.run(download_many(POP20_CC))
-    elapsed = time.time() - t0
-    msg = '\n{} flags downloaded in {:.2f}s'
-    print(msg.format(count, elapsed))
+    elapsed = time.perf_counter() - t0
+    print(f'\n{count} downloads in {elapsed:.2f}s')
 
 
 if __name__ == '__main__':

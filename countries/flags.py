@@ -12,7 +12,6 @@ Sample run::
 # BEGIN FLAGS_PY
 import os
 import time
-import sys
 
 import urllib.request  # <1>
 
@@ -21,7 +20,7 @@ POP20_CC = ('CN IN US ID BR PK NG BD RU JP '
 
 BASE_URL = 'http://flupy.org/data/flags'  # <3>
 
-DEST_DIR = 'downloads/'  # <4>
+DEST_DIR = 'downloaded/'  # <4>
 
 
 def save_flag(img, filename):  # <5>
@@ -47,11 +46,10 @@ def download_many(cc_list):  # <7>
 
 
 def main():  # <9>
-    t0 = time.time()
+    t0 = time.perf_counter()
     count = download_many(POP20_CC)
-    elapsed = time.time() - t0
-    msg = '\n{} flags downloaded in {:.2f}s'
-    print(msg.format(count, elapsed))
+    elapsed = time.perf_counter() - t0
+    print(f'\n{count} downloads in {elapsed:.2f}s')
 
 
 if __name__ == '__main__':
