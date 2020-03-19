@@ -44,11 +44,10 @@ def download_many(cc_list, base_url, verbose, concur_req):
         for future in done_iter:  # <13>
             try:
                 res = future.result()  # <14>
-            except requests.exceptions.HTTPError as exc:  # <15>
-                error_msg = 'HTTP {res.status_code} - {res.reason}'
-                error_msg = error_msg.format(res=exc.response)
-            except requests.exceptions.ConnectionError as exc:
-                error_msg = 'Connection error'
+            except urllib.error.HTTPError as exc:  # <15>
+                error_msg = f'HTTP error {exc.code} - {exc.reason}'
+            except urllib.error.URLError as exc:
+                error_msg = f'Connection error: {exc.reason}'
             else:
                 error_msg = ''
                 status = res.status
@@ -58,7 +57,7 @@ def download_many(cc_list, base_url, verbose, concur_req):
             counter[status] += 1
             if verbose and error_msg:
                 cc = to_do_map[future]  # <16>
-                print('*** Error for {}: {}'.format(cc, error_msg))
+                print(f'*** Error for {cc}: {error_msg}')
 
     return counter
 

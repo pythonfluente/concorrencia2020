@@ -17,8 +17,9 @@ Sample run::
 
 import collections
 
-import requests
-import tqdm
+import urllib.request
+import urllib.error
+import tqdm  # <1>
 
 from flags2_common import main, save_flag, HTTPStatus, Result
 
@@ -29,18 +30,15 @@ MAX_CONCUR_REQ = 1
 # BEGIN FLAGS2_BASIC_HTTP_FUNCTIONS
 def get_flag(base_url, cc):
     url = '{}/{cc}/{cc}.gif'.format(base_url, cc=cc.lower())
-    resp = requests.get(url)
-    if resp.status_code != 200:  # <1>
-        resp.raise_for_status()
-    return resp.content
+    resp = urllib.request.urlopen(url)
+    return resp.read()
 
 
 def download_one(cc, base_url, verbose=False):
     try:
         image = get_flag(base_url, cc)
-    except requests.exceptions.HTTPError as exc:  # <2>
-        res = exc.response
-        if res.status_code == 404:
+    except urllib.error.HTTPError as exc:  # <2>
+        if exc.code == 404:
             status = HTTPStatus.not_found  # <3>
             msg = 'not found'
         else:  # <4>
@@ -65,11 +63,10 @@ def download_many(cc_list, base_url, verbose, max_req):
     for cc in cc_iter:  # <4>
         try:
             res = download_one(cc, base_url, verbose)  # <5>
-        except requests.exceptions.HTTPError as exc:  # <6>
-            error_msg = 'HTTP error {res.status_code} - {res.reason}'
-            error_msg = error_msg.format(res=exc.response)
-        except requests.exceptions.ConnectionError as exc:  # <7>
-            error_msg = 'Connection error'
+        except urllib.error.HTTPError as exc:  # <6>
+            error_msg = f'HTTP error {exc.code} - {exc.reason}'
+        except urllib.error.URLError as exc:  # <7>
+            error_msg = f'Connection error: {exc.reason}'
         else:  # <8>
             error_msg = ''
             status = res.status
@@ -78,7 +75,7 @@ def download_many(cc_list, base_url, verbose, max_req):
             status = HTTPStatus.error  # <9>
         counter[status] += 1  # <10>
         if verbose and error_msg: # <11>
-            print('*** Error for {}: {}'.format(cc, error_msg))
+            print(f'*** Error for {cc}: {error_msg}')
 
     return counter  # <12>
 # END FLAGS2_DOWNLOAD_MANY_SEQUENTIAL

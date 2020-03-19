@@ -28,7 +28,7 @@ SERVERS = {
 }
 DEFAULT_SERVER = 'LOCAL'
 
-DEST_DIR = 'downloads/'
+DEST_DIR = 'downloaded/'
 COUNTRY_CODES_FILE = 'country_codes.txt'
 
 
