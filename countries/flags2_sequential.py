@@ -29,7 +29,8 @@ MAX_CONCUR_REQ = 1
 
 # BEGIN FLAGS2_BASIC_HTTP_FUNCTIONS
 def get_flag(base_url, cc):
-    url = '{}/{cc}/{cc}.gif'.format(base_url, cc=cc.lower())
+    cc = cc.lower()
+    url = f'{base_url}/{cc}/{cc}.gif'
     resp = urllib.request.urlopen(url)
     return resp.read()
 

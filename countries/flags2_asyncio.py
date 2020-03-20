@@ -25,7 +25,8 @@ class FetchError(Exception):  # <1>
 
 
 async def get_flag(session, base_url, cc): # <2>
-    url = '{}/{cc}/{cc}.gif'.format(base_url, cc=cc.lower())
+    cc = cc.lower()
+    url = f'{base_url}/{cc}/{cc}.gif'
     async with session.get(url) as resp:
         if resp.status == 200:
             return await resp.read()
@@ -72,14 +73,13 @@ async def downloader_coro(cc_list, base_url, verbose, concur_req):  # <1>
             try:
                 res = await future  # <7>
             except FetchError as exc:  # <8>
-                country_code = exc.country_code  # <9>
+                cc = exc.country_code  # <9>
                 try:
                     error_msg = exc.__cause__.args[0]  # <10>
                 except IndexError:
                     error_msg = exc.__cause__.__class__.__name__  # <11>
                 if verbose and error_msg:
-                    msg = '*** Error for {}: {}'
-                    print(msg.format(country_code, error_msg))
+                    print(f'*** Error for {cc}: {error_msg}')
                 status = HTTPStatus.error
             else:
                 status = res.status
@@ -90,10 +90,8 @@ async def downloader_coro(cc_list, base_url, verbose, concur_req):  # <1>
 
 
 def download_many(cc_list, base_url, verbose, concur_req):
-    loop = asyncio.get_event_loop()
     coro = downloader_coro(cc_list, base_url, verbose, concur_req)
-    counts = loop.run_until_complete(coro)  # <14>
-    loop.close()  # <15>
+    counts = asyncio.run(coro)  # <14>
 
     return counts
 
