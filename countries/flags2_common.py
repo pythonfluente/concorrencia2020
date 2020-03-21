@@ -54,7 +54,7 @@ def final_report(cc_list, counter, start_time):
     elapsed = time.time() - start_time
     print('-' * 20)
     plural = 's' if counter[HTTPStatus.ok] != 1 else ''
-    print(f'{HTTPStatus.ok} flag{plural} downloaded.')
+    print(f'{counter[HTTPStatus.ok]} flag{plural} downloaded.')
     if counter[HTTPStatus.not_found]:
         print(counter[HTTPStatus.not_found], 'not found.')
     if counter[HTTPStatus.error]:
