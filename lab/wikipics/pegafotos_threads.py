@@ -25,6 +25,7 @@ def pega_fotos():
     for linha in open(LISTA_FOTOS):
         tamanho, caminho = linha.split('\t')
         caminhos.append(caminho.strip())
+
     with ThreadPoolExecutor() as fazedor:
         promessas = []
         for caminho in caminhos:

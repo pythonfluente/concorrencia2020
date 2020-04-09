@@ -48,13 +48,13 @@ async def download_one(client, cc):      # <6>
 async def download_many(cc_list):
     async with httpx.AsyncClient() as client:                    # <8>
         tasks = [asyncio.create_task(download_one(client, cc))   # <9>
-                 for cc in sorted(cc_list)]
-        res = await asyncio.gather(*tasks)                       # <10>
+                 for cc in sorted(cc_list)]                      # <10>
+        res = await asyncio.gather(*tasks)                       # <11>
 
     return len(res)
 
 
-def main():  # <11>
+def main():  # <12>
     t0 = time.perf_counter()
     count = asyncio.run(download_many(POP20_CC))
     elapsed = time.perf_counter() - t0

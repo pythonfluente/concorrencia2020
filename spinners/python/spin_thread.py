@@ -15,7 +15,7 @@ import time
 def spin(msg, computation):  # <1>
     for char in itertools.cycle('⠇⠋⠙⠸⠴⠦'):  # <3>
         status = f'\r{char} {msg}'
-        print(status, flush=True, end='')
+        print(status, end='', flush=True)
         if computation.wait(.1):  # <5>
             break
     blanks = ' ' * len(status)
